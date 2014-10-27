@@ -1,0 +1,20 @@
+---
+- name: install apt packages
+  sudo: true
+  with_items:
+    - acl
+    - apache2
+    - php5
+    - php5-cli
+    - php5-mongo
+    - mongodb
+  apt:
+    name={{ item }}
+    state=present
+
+- name: download composer
+  sudo: true
+  get_url:
+    url=http://getcomposer.org/composer.phar
+    dest=/usr/bin/composer
+    mode=777

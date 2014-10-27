@@ -1,0 +1,20 @@
+---
+- name: install vhost
+  sudo: true
+  template:
+    src=etc/apache2/sites-available/000-default.conf
+    dest=/etc/apache2/sites-available/000-default.conf
+  notify:
+    - restart apache
+
+- name: permissions
+  sudo: true
+  shell:
+    "HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
+    setfacl -R -m u:\"$HTTPDUSER\":rwX -m u:`whoami`:rwX app/cache app/logs
+    setfacl -dR -m u:\"$HTTPDUSER\":rwX -m u:`whoami`:rwX app/cache app/logs"
+    chdir=/vagrant
+    
+- name: install dependencies
+  command: composer install
+    chdir=/vagrant
