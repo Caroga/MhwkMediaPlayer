@@ -1,0 +1,5 @@
+mhwk_media_player:
+    resource: "@MhwkMediaPlayerBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
