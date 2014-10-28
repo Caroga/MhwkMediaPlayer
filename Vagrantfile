@@ -16,14 +16,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         mhwk.vm.network "forwarded_port", guest: 22, host: 2223, auto_correct: true
     end
 
-    if Vagrant::Util::Platform.windows?
-        config.vm.provision "shell", path: "provisioning/local.sh"
-        config.vm.synced_folder ".", "/vagrant"
-    else
-        config.vm.provision "ansible" do |ansible|
-            ansible.playbook = "provisioning/playbook.yml"
-            ansible.inventory_path = "provisioning/hosts"
-            ansible.limit = "development:!local"
-        end
-    end
+    config.vm.provision "shell", path: "provisioning/local.sh"
+    config.vm.synced_folder ".", "/vagrant"
 end
